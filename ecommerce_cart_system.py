@@ -1,7 +1,6 @@
 import hashlib
 import os
 import secrets
-import math
 
 cart_items = {
     "ITEM1": {"name": "Wireless Mouse", "price": 25.0, "qty": 2},
@@ -27,13 +26,10 @@ def removeItemFromCart(item_id):
 
 
 def checkCartStatus(item_id):
-    handling_fee = 4.50
-    if cart_items.get(item_id) == None:
+    item = cart_items.get(item_id)
+    if item is None:
         return False
-    if cart_items[item_id]["qty"] > 0:
-        return True
-    else:
-        return False
+    return item["qty"] > 0
 
 
 def calculateDiscountedTotal(item_id, discount_rate):
@@ -71,7 +67,8 @@ def main():
     addItemToCart("ITEM4", "Monitor Stand", 35.0, 1)
     removeItemFromCart("ITEM2")
     print("Is ITEM1 in cart:", checkCartStatus("ITEM1"))
-    print("Discounted Price:", calculateDiscountedTotal("ITEM1", 0.10))
+    discounted = calculateDiscountedTotal("ITEM1", 0.10)
+    print("Discounted Price:", discounted)
     print("Item Hash:", generateItemHash("ITEM1"))
     print("Checkout PIN:", generateCheckoutPin())
     exportCartReceipt()
